@@ -10,18 +10,19 @@ package com.mycompany.sarisaristore;
  */
 public class Cart {
     
-    private int price;
     private String name;
+    private int price;
     private int quantity;
     
     
-    public Cart(int price, String name, int quantity) {
-        this.price = price;
+    public Cart(String name, int price, int quantity) {
         this.name = name;
+        this.price = price;
         this.quantity = quantity;
     }
     
-    public int getPrice() { return price; }
     public String getName() { return name; }
+    public int getPrice() { return price; }
     public int getQuantity() { return quantity; }
+    public int getSubtotal() { return price * quantity; }
 }
