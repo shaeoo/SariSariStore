@@ -40,10 +40,8 @@ public class SariSariStore {
     }
     
     private static void showDrinks() {
-        ArrayList<Integer> list = new ArrayList<>();
-        boolean wantAnother = true;
-        ArrayList<String> cart = new ArrayList<>();
         ArrayList<Cart> myCart = new ArrayList<>();
+        boolean wantAnother = true;
         
         
         while (wantAnother) {
@@ -59,20 +57,14 @@ public class SariSariStore {
 
             switch (choice) {
                 case 1:
-//                    list.add(15);
-//                    cart.add("coke");
                     item = "Coke";
                     price = 15;
                     break;
                 case 2:
-//                    list.add(25);
-//                    cart.add("C2");
                     item = "C2";
                     price = 25;
                     break;
                 case 3:
-//                    list.add(50);
-//                    cart.add("Coffee");
                     item = "Coffee";
                     price = 50;
                     break;
@@ -95,13 +87,6 @@ public class SariSariStore {
         System.out.println("Payment na!!!");        
 
         int total = 0;
-//        for (int i = 0; i < list.size(); i++) {
-//            int id = list.get(i);
-//            String item = cart.get(i);
-//
-//            System.out.printf("ID: %d; Item: %s \n", id, item);
-//            total += id;
-//        }
 
         for(Cart obj : myCart) {
             System.out.println(obj.getName());
