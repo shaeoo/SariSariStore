@@ -29,26 +29,27 @@ public class MainStore extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnDrinks = new javax.swing.JButton();
+        btnSnaks = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        exitBtn = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton2.setText("Drinks");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        btnDrinks.setText("Drinks");
+        btnDrinks.addActionListener(this::btnDrinksActionPerformed);
 
-        jButton4.setText("Snaks");
+        btnSnaks.setText("Snaks");
+        btnSnaks.addActionListener(this::btnSnaksActionPerformed);
 
         jLabel4.setText("Pick a category: ");
 
         jLabel2.setText("Welcome to Shawn's Store");
 
-        exitBtn.setText("Exit");
-        exitBtn.addActionListener(this::exitBtnActionPerformed);
+        btnExit.setText("Exit");
+        btnExit.addActionListener(this::btnExitActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,9 +59,9 @@ public class MainStore extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(132, 132, 132)
-                        .addComponent(jButton2)
+                        .addComponent(btnDrinks)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
+                        .addComponent(btnSnaks))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jLabel4)))
@@ -72,7 +73,7 @@ public class MainStore extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(124, 124, 124))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(exitBtn)
+                        .addComponent(btnExit)
                         .addGap(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -84,10 +85,10 @@ public class MainStore extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton4))
+                    .addComponent(btnDrinks)
+                    .addComponent(btnSnaks))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(exitBtn)
+                .addComponent(btnExit)
                 .addGap(15, 15, 15))
         );
 
@@ -96,17 +97,27 @@ public class MainStore extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
         // exit;
         setVisible(false);
         dispose();
         System.exit(0);
-    }//GEN-LAST:event_exitBtnActionPerformed
+    }//GEN-LAST:event_btnExitActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnDrinksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDrinksActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        ShowMenu showMenu = new ShowMenu("drinks");
+        showMenu.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnDrinksActionPerformed
+
+    private void btnSnaksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSnaksActionPerformed
+        // TODO add your handling code here:
+        ShowMenu showMenu = new ShowMenu("snacks");
+        showMenu.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnSnaksActionPerformed
 
     /**
      * @param args the command line arguments
@@ -134,9 +145,9 @@ public class MainStore extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton exitBtn;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnDrinks;
+    private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnSnaks;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
