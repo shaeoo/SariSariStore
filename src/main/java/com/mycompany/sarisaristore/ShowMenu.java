@@ -4,6 +4,7 @@
  */
 package com.mycompany.sarisaristore;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +24,8 @@ public class ShowMenu extends javax.swing.JFrame {
 //    public String category;
     ArrayList<Product> drinks = new ArrayList<>();
     ArrayList<Product> snacks = new ArrayList<>();
+    ArrayList<Cart> myCart = new ArrayList<>();
+    ArrayList<Product> currentData = null;
     
     public ShowMenu(String category) {
         initComponents();
@@ -36,26 +39,101 @@ public class ShowMenu extends javax.swing.JFrame {
         snacks.add(new Product("Skyflakes", 10, 15));
         
         loadCategory(category);
+        lblCategory.setText("CATEGORY: " + category.toUpperCase());
     }
     
     public void loadCategory(String cat) {
-        if (cat.equalsIgnoreCase("drinks")) {
+        if (cat.equalsIgnoreCase("drinks")) 
             displayAll(drinks);
-        } else if (cat.equalsIgnoreCase("snacks")) {
+        else if (cat.equalsIgnoreCase("snacks")) 
             displayAll(snacks);
-        } else {
+        else 
             txtareaPrint.setText("Invalid");
-        }
     }
     
     private void displayAll(ArrayList<Product> data) {
-        String display = "";
+        int index = 1;
         
+        String display = "ID\tProduct\tPrice\tStock\n";
+        display += "-------------------------------------------------------------------------------\n";
         for(Product p : data) {
-            display += p.getName() + " | ₱" + p.getPrice() + " | " + p.getStock() + "pcs left\n";
+            display += index + "\t"  + p.getName() + "\t₱" + p.getPrice() + "\t" + p.getStock() + "pcs left\n";
+            index++;
         }
         
         txtareaPrint.setText(display);
+        currentData = data;
+    }
+    
+    public void addToCart(ArrayList<Product> data) {
+        int choice = (int) jSpinnerChoice.getValue() - 1 ;
+        int quantity = (int) jSpinnerQuantity.getValue();
+        Product userChoice = data.get(choice);
+        boolean isFound = false;
+        
+        if (choice <= -1 || choice > data.size() - 1) {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Invalid input. Please enter a valid choice.", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        if (quantity > userChoice.getStock()) {
+            JOptionPane.showMessageDialog(rootPane, 
+                    "No enough stock. There are " + userChoice.getStock() + "pcs left.", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        for (Cart cart : myCart) {
+            if (cart.getName().equalsIgnoreCase(userChoice.getName())) {                
+                cart.setQuantity(cart.getQuantity() + quantity);
+                isFound = true;
+                break;
+            }
+        }
+        
+        if (!isFound) {
+            myCart.add(new Cart(userChoice.getName(), userChoice.getPrice(), quantity));
+        }
+        
+        userChoice.updateStock(userChoice.getStock() - quantity);
+        displayAll(data); 
+        JOptionPane.showMessageDialog(rootPane, 
+                "Added Successfuly", 
+                "Success", 
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+    
+    public void showCart() {
+        String viewCart = "Current Items: \n\n";
+        
+        if (myCart.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, 
+                    "No item here", 
+                    "View Cart", 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        for (Cart cart : myCart) {
+            viewCart += cart.getName() + " "
+                    + "₱" + cart.getPrice() + " "
+                    + cart.getQuantity() +"pc(s)\n"
+            ;
+        }
+        
+        JOptionPane.showMessageDialog(rootPane, 
+                viewCart, 
+                "View Cart", 
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
     
     /**
@@ -71,49 +149,89 @@ public class ShowMenu extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtareaPrint = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        btnAddToCart = new javax.swing.JButton();
+        jSpinnerChoice = new javax.swing.JSpinner();
+        jSpinnerQuantity = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        btnViewCart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
 
         lblCategory.setText("Category:");
 
         btnBack.setText("back");
         btnBack.addActionListener(this::btnBackActionPerformed);
 
+        txtareaPrint.setEditable(false);
         txtareaPrint.setColumns(20);
         txtareaPrint.setRows(5);
         jScrollPane1.setViewportView(txtareaPrint);
+
+        jLabel1.setText("Enter ID choice: ");
+
+        btnAddToCart.setText("add to cart");
+        btnAddToCart.addActionListener(this::btnAddToCartActionPerformed);
+
+        jSpinnerQuantity.setValue(1);
+
+        jLabel2.setText("Enter quantity:");
+
+        btnViewCart.setText("view cart");
+        btnViewCart.addActionListener(this::btnViewCartActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(130, 130, 130)
-                    .addComponent(lblCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(155, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnViewCart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddToCart))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSpinnerChoice)
+                                    .addComponent(jSpinnerQuantity))))))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(btnBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(27, 27, 27)
-                    .addComponent(lblCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(236, Short.MAX_VALUE)))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(lblCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jSpinnerChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jSpinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddToCart)
+                    .addComponent(btnViewCart))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -122,9 +240,20 @@ public class ShowMenu extends javax.swing.JFrame {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
         MainStore mainStore = new MainStore();
+        mainStore.setLocationRelativeTo(null);
         mainStore.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
+        // TODO add your handling code here:
+        addToCart(currentData);
+    }//GEN-LAST:event_btnAddToCartActionPerformed
+
+    private void btnViewCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewCartActionPerformed
+        // TODO add your handling code here:
+        showCart();
+    }//GEN-LAST:event_btnViewCartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,8 +281,14 @@ public class ShowMenu extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnViewCart;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerChoice;
+    private javax.swing.JSpinner jSpinnerQuantity;
     private javax.swing.JLabel lblCategory;
     private javax.swing.JTextArea txtareaPrint;
     // End of variables declaration//GEN-END:variables

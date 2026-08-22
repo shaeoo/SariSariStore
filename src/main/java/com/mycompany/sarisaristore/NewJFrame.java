@@ -32,7 +32,7 @@ public class NewJFrame extends javax.swing.JFrame {
         startBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        setLocation(new java.awt.Point(0, 0));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setText("Shawn's SariSari Store");
@@ -71,6 +71,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
         // TODO add your handling code here:
         MainStore myStore =  new MainStore();
+        myStore.setLocationRelativeTo(null);
         myStore.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_startBtnActionPerformed
