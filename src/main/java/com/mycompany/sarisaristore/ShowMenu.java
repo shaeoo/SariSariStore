@@ -67,10 +67,6 @@ public class ShowMenu extends javax.swing.JFrame {
     
     public void addToCart(ArrayList<Product> data) {
         int choice = (int) jSpinnerChoice.getValue() - 1 ;
-        int quantity = (int) jSpinnerQuantity.getValue();
-        Product userChoice = data.get(choice);
-        boolean isFound = false;
-        
         if (choice <= -1 || choice > data.size() - 1) {
             JOptionPane.showMessageDialog(rootPane,
                     "Invalid input. Please enter a valid choice.", 
@@ -79,6 +75,10 @@ public class ShowMenu extends javax.swing.JFrame {
             );
             return;
         }
+        
+        int quantity = (int) jSpinnerQuantity.getValue();
+        Product userChoice = data.get(choice);
+        boolean isFound = false;
         
         if (quantity > userChoice.getStock()) {
             JOptionPane.showMessageDialog(rootPane, 
@@ -155,6 +155,7 @@ public class ShowMenu extends javax.swing.JFrame {
         jSpinnerQuantity = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         btnViewCart = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -171,6 +172,7 @@ public class ShowMenu extends javax.swing.JFrame {
 
         jLabel1.setText("Enter ID choice: ");
 
+        btnAddToCart.setBackground(new java.awt.Color(255, 153, 102));
         btnAddToCart.setText("add to cart");
         btnAddToCart.addActionListener(this::btnAddToCartActionPerformed);
 
@@ -178,8 +180,13 @@ public class ShowMenu extends javax.swing.JFrame {
 
         jLabel2.setText("Enter quantity:");
 
+        btnViewCart.setBackground(new java.awt.Color(255, 255, 153));
         btnViewCart.setText("view cart");
         btnViewCart.addActionListener(this::btnViewCartActionPerformed);
+
+        btnPayment.setBackground(new java.awt.Color(153, 255, 153));
+        btnPayment.setText("payment");
+        btnPayment.addActionListener(this::btnPaymentActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,11 +194,6 @@ public class ShowMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnViewCart)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddToCart))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +209,15 @@ public class ShowMenu extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSpinnerChoice)
-                                    .addComponent(jSpinnerQuantity))))))
+                                    .addComponent(jSpinnerQuantity)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPayment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnViewCart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAddToCart)))))
                 .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
@@ -227,11 +237,13 @@ public class ShowMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jSpinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddToCart)
-                    .addComponent(btnViewCart))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(btnViewCart)
+                    .addComponent(btnAddToCart))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPayment)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -254,6 +266,13 @@ public class ShowMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         showCart();
     }//GEN-LAST:event_btnViewCartActionPerformed
+
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
+        // TODO add your handling code here:
+        Payment payment = new Payment(myCart);
+        setVisible(false);
+        payment.setVisible(true);
+    }//GEN-LAST:event_btnPaymentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,6 +302,7 @@ public class ShowMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnViewCart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

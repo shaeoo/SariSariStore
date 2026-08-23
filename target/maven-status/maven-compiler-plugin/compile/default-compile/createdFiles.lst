@@ -1,6 +1,7 @@
-com\mycompany\sarisaristore\NewJFrame.class
-com\mycompany\sarisaristore\MainStore.class
 com\mycompany\sarisaristore\Product.class
 com\mycompany\sarisaristore\ShowMenu.class
 com\mycompany\sarisaristore\Cart.class
+com\mycompany\sarisaristore\NewJFrame.class
+com\mycompany\sarisaristore\MainStore.class
+com\mycompany\sarisaristore\Payment.class
 com\mycompany\sarisaristore\SariSariStore.class

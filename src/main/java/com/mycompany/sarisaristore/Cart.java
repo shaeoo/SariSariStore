@@ -11,20 +11,20 @@ package com.mycompany.sarisaristore;
 public class Cart {
     
     private String name;
-    private int price;
+    private double price;
     private int quantity;
     
     
-    public Cart(String name, int price, int quantity) {
+    public Cart(String name, double price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
     
     public String getName() { return name; }
-    public int getPrice() { return price; }
+    public double getPrice() { return price; }
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
-    public int getSubtotal() { return price * quantity; }
+    public double getSubtotal() { return price * quantity; }
     
 }
