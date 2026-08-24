@@ -35,14 +35,14 @@ public class Payment extends javax.swing.JFrame {
         this.drinks = drinks;
         this.snacks = snacks;
         
-        String text = " Item\t Quantity\t Price\n";
+        String text = " Item\t Qty\t Price\n";
         text += "----------------------------------------------------------------\n";
         for (Cart cart : myCart) {
             total += cart.getQuantity() * cart.getPrice();
-            text += " " + cart.getName() + "\t " + cart.getQuantity() + "\t ₱" + cart.getPrice() + "\n";
-
+            text += " " + cart.getName() + "\t  " + cart.getQuantity() + "\t ₱" + cart.getPrice() + "\n";
         }
-        text += "\n\nTotal: \t\t₱" + total;
+        text += "\n----------------------------------------------------------------\n";
+        text += "Total: \t\t₱" + total;
         txtareaPrint.setText(text);
     }
     

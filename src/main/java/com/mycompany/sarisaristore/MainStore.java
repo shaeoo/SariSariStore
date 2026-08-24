@@ -52,7 +52,7 @@ public class MainStore extends javax.swing.JFrame {
         btnDrinks.setText("Drinks");
         btnDrinks.addActionListener(this::btnDrinksActionPerformed);
 
-        btnSnaks.setText("Snaks");
+        btnSnaks.setText("Snacks");
         btnSnaks.addActionListener(this::btnSnaksActionPerformed);
 
         jLabel4.setText("Pick a category: ");

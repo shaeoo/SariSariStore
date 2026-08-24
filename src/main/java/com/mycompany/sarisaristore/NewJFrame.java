@@ -24,12 +24,20 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         
         drinks.add(new Product("Coke", 25, 50));
-        drinks.add(new Product("Coffee", 50, 10));
-        drinks.add(new Product("Sting", 35, 20));
-        
-        snacks.add(new Product("Mang Juan", 15, 20));
-        snacks.add(new Product("Loaded", 20, 10));
-        snacks.add(new Product("Skyflakes", 10, 15));
+        drinks.add(new Product("Sparkle", 18, 30));
+        drinks.add(new Product("Royal", 18, 28));
+        drinks.add(new Product("Gatorade", 55, 20));
+        drinks.add(new Product("Sting", 25, 43));
+        drinks.add(new Product("C2 Apple", 42, 30));
+        drinks.add(new Product("Plus", 12, 20));
+
+        snacks.add(new Product("Eggnog", 15, 20));
+        snacks.add(new Product("Criss Cross", 15, 20));
+        snacks.add(new Product("Pillows", 15, 20));
+        snacks.add(new Product("Nagaraya", 15, 20));
+        snacks.add(new Product("Potato Fries", 15, 20));
+        snacks.add(new Product("Piattos", 15, 20));
+        snacks.add(new Product("Clover", 15, 20));
     }
 
     /**

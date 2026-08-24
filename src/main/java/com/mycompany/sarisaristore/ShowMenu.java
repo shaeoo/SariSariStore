@@ -88,7 +88,7 @@ public class ShowMenu extends javax.swing.JFrame {
         userChoice.updateStock(userChoice.getStock() - quantity);
         displayAll(product); 
         JOptionPane.showMessageDialog(rootPane, 
-                "Added Successfuly", 
+                quantity + " " + userChoice.getName() + " added successfully.", 
                 "Success", 
                 JOptionPane.INFORMATION_MESSAGE
         );
