@@ -4,6 +4,7 @@
  */
 package com.mycompany.sarisaristore;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,24 +17,35 @@ public class Payment extends javax.swing.JFrame {
     /**
      * Creates new form Payment
      */
+    
+    ArrayList<Product> drinks;
+    ArrayList<Product> snacks;
+    double total = 0;
+    
     public Payment() {
         initComponents();
     }
     
-    double total = 0;
-    
-    public Payment(ArrayList<Cart> myCart) {
+    public Payment(ArrayList<Product> drinks, ArrayList<Product> snacks, ArrayList<Cart> myCart) {
         initComponents();
-
-        String text = " Item\t Price\t Quantity\n";
+        btnBuyAgain.setVisible(false);
+        btnExit.setVisible(false);
+        lblChange.setVisible(false);
+        
+        this.drinks = drinks;
+        this.snacks = snacks;
+        
+        String text = " Item\t Quantity\t Price\n";
+        text += "----------------------------------------------------------------\n";
         for (Cart cart : myCart) {
             total += cart.getQuantity() * cart.getPrice();
-            text += "| " + cart.getName() + "\t| " + cart.getPrice() + "\t| " + cart.getQuantity() + "\t|\n";
+            text += " " + cart.getName() + "\t " + cart.getQuantity() + "\t ₱" + cart.getPrice() + "\n";
+
         }
-        text += "Total: \t\t" + total;
+        text += "\n\nTotal: \t\t₱" + total;
         txtareaPrint.setText(text);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,11 +62,16 @@ public class Payment extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnPay = new javax.swing.JButton();
+        btnBuyAgain = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
+        lblChange = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblTest.setText("jLabel1");
+        lblTest.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTest.setText("Payment");
 
+        txtareaPrint.setEditable(false);
         txtareaPrint.setColumns(20);
         txtareaPrint.setRows(5);
         jScrollPane1.setViewportView(txtareaPrint);
@@ -66,34 +83,49 @@ public class Payment extends javax.swing.JFrame {
         btnPay.setText("pay");
         btnPay.addActionListener(this::btnPayActionPerformed);
 
+        btnBuyAgain.setText("Buy Again");
+        btnBuyAgain.addActionListener(this::btnBuyAgainActionPerformed);
+
+        btnExit.setText("Exit");
+        btnExit.addActionListener(this::btnExitActionPerformed);
+
+        lblChange.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblChange.setText("Change:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(lblTest))
+                    .addComponent(lblChange)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnExit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuyAgain))
                         .addComponent(jLabel1)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(67, 67, 67)
-                            .addComponent(lblTest)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinnerPaymentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jSpinnerPaymentAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(13, 13, 13)
                 .addComponent(lblTest)
-                .addGap(74, 74, 74)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -101,7 +133,13 @@ public class Payment extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPay)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(lblChange)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuyAgain)
+                    .addComponent(btnExit))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -110,45 +148,82 @@ public class Payment extends javax.swing.JFrame {
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
         // TODO add your handling code here:
         int paymentAmount = (int) jSpinnerPaymentAmount.getValue();
-        
-        if (paymentAmount < (int) total) {
-            lblTest.setText("Insufficient Amount!");
+
+        if (paymentAmount < total) {
+            JOptionPane.showMessageDialog(rootPane, 
+                    "Insufficient Amount Paid", 
+                    "Payment Error", 
+                    JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
-        lblTest.setText("Paid...........................");
+        
+        double change = paymentAmount - total;
+        
+        JOptionPane.showMessageDialog(rootPane, 
+                "Payment Successfull", 
+                "Success", 
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        
+        lblChange.setText("Change: ₱" + change);
+        btnPay.setEnabled(false);
+        jSpinnerPaymentAmount.setEnabled(false);
+        lblChange.setVisible(true);
+        btnPay.setText("ALREADY PAID");
+        btnBuyAgain.setVisible(true);
+        btnExit.setVisible(true);
     }//GEN-LAST:event_btnPayActionPerformed
+
+    private void btnBuyAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuyAgainActionPerformed
+        // TODO add your handling code here:
+        MainStore mainStore = new MainStore(drinks, snacks);
+        mainStore.setLocationRelativeTo(null);
+        mainStore.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnBuyAgainActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        dispose();
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Payment().setVisible(true));
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            logger.log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(() -> new Payment().setVisible(true));
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuyAgain;
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnPay;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinnerPaymentAmount;
+    private javax.swing.JLabel lblChange;
     private javax.swing.JLabel lblTest;
     private javax.swing.JTextArea txtareaPrint;
     // End of variables declaration//GEN-END:variables

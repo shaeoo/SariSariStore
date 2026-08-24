@@ -17,57 +17,41 @@ public class ShowMenu extends javax.swing.JFrame {
     /**
      * Creates new form ShowMenu
      */
+    
+    ArrayList<Cart> myCart = new ArrayList<>();
+    ArrayList<Product> drinks;
+    ArrayList<Product> snacks;
+    ArrayList<Product> product;
+    
     public ShowMenu() {
         initComponents();
     }
     
-//    public String category;
-    ArrayList<Product> drinks = new ArrayList<>();
-    ArrayList<Product> snacks = new ArrayList<>();
-    ArrayList<Cart> myCart = new ArrayList<>();
-    ArrayList<Product> currentData = null;
-    
-    public ShowMenu(String category) {
+    public ShowMenu(ArrayList<Product> drinks, ArrayList<Product> snacks, ArrayList<Product> product, String category){
         initComponents();
-        
-        drinks.add(new Product("Coke", 25, 50));
-        drinks.add(new Product("Coffee", 50, 10));
-        drinks.add(new Product("Sting", 35, 20));
-        
-        snacks.add(new Product("Mang Juan", 15, 20));
-        snacks.add(new Product("Loaded", 20, 10));
-        snacks.add(new Product("Skyflakes", 10, 15));
-        
-        loadCategory(category);
+        this.drinks = drinks;
+        this.snacks = snacks;
+        this.product = product;
+        displayAll(product);
         lblCategory.setText("CATEGORY: " + category.toUpperCase());
     }
     
-    public void loadCategory(String cat) {
-        if (cat.equalsIgnoreCase("drinks")) 
-            displayAll(drinks);
-        else if (cat.equalsIgnoreCase("snacks")) 
-            displayAll(snacks);
-        else 
-            txtareaPrint.setText("Invalid");
-    }
-    
-    private void displayAll(ArrayList<Product> data) {
+    private void displayAll(ArrayList<Product> product) {
         int index = 1;
         
         String display = "ID\tProduct\tPrice\tStock\n";
         display += "-------------------------------------------------------------------------------\n";
-        for(Product p : data) {
+        for(Product p : product) {
             display += index + "\t"  + p.getName() + "\t₱" + p.getPrice() + "\t" + p.getStock() + "pcs left\n";
             index++;
         }
         
         txtareaPrint.setText(display);
-        currentData = data;
     }
     
-    public void addToCart(ArrayList<Product> data) {
+    public void addToCart(ArrayList<Product> product) {
         int choice = (int) jSpinnerChoice.getValue() - 1 ;
-        if (choice <= -1 || choice > data.size() - 1) {
+        if (choice <= -1 || choice > product.size() - 1) {
             JOptionPane.showMessageDialog(rootPane,
                     "Invalid input. Please enter a valid choice.", 
                     "Error", 
@@ -77,7 +61,7 @@ public class ShowMenu extends javax.swing.JFrame {
         }
         
         int quantity = (int) jSpinnerQuantity.getValue();
-        Product userChoice = data.get(choice);
+        Product userChoice = product.get(choice);
         boolean isFound = false;
         
         if (quantity > userChoice.getStock()) {
@@ -102,7 +86,7 @@ public class ShowMenu extends javax.swing.JFrame {
         }
         
         userChoice.updateStock(userChoice.getStock() - quantity);
-        displayAll(data); 
+        displayAll(product); 
         JOptionPane.showMessageDialog(rootPane, 
                 "Added Successfuly", 
                 "Success", 
@@ -123,10 +107,7 @@ public class ShowMenu extends javax.swing.JFrame {
         }
 
         for (Cart cart : myCart) {
-            viewCart += cart.getName() + " "
-                    + "₱" + cart.getPrice() + " "
-                    + cart.getQuantity() +"pc(s)\n"
-            ;
+            viewCart += cart.getName() + " " + cart.getQuantity() +"pc(s)\n";
         }
         
         JOptionPane.showMessageDialog(rootPane, 
@@ -156,6 +137,7 @@ public class ShowMenu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnViewCart = new javax.swing.JButton();
         btnPayment = new javax.swing.JButton();
+        btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -188,30 +170,32 @@ public class ShowMenu extends javax.swing.JFrame {
         btnPayment.setText("payment");
         btnPayment.addActionListener(this::btnPaymentActionPerformed);
 
+        btnExit.setText("Exit");
+        btnExit.addActionListener(this::btnExitActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addComponent(btnBack)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBack)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSpinnerChoice)
-                                    .addComponent(jSpinnerQuantity)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSpinnerChoice)
+                            .addComponent(jSpinnerQuantity)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnExit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnPayment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -242,7 +226,9 @@ public class ShowMenu extends javax.swing.JFrame {
                     .addComponent(btnViewCart)
                     .addComponent(btnAddToCart))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPayment)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPayment)
+                    .addComponent(btnExit))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -251,7 +237,7 @@ public class ShowMenu extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        MainStore mainStore = new MainStore();
+        MainStore mainStore = new MainStore(drinks, snacks);
         mainStore.setLocationRelativeTo(null);
         mainStore.setVisible(true);
         setVisible(false);
@@ -259,7 +245,7 @@ public class ShowMenu extends javax.swing.JFrame {
 
     private void btnAddToCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToCartActionPerformed
         // TODO add your handling code here:
-        addToCart(currentData);
+        addToCart(product);
     }//GEN-LAST:event_btnAddToCartActionPerformed
 
     private void btnViewCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewCartActionPerformed
@@ -269,10 +255,27 @@ public class ShowMenu extends javax.swing.JFrame {
 
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         // TODO add your handling code here:
-        Payment payment = new Payment(myCart);
-        setVisible(false);
+        if (myCart.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, 
+                    "YOu didn't pick anything", 
+                    "Payment Error", 
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+        
+        Payment payment = new Payment(drinks, snacks, myCart);
+        payment.setLocationRelativeTo(null);
         payment.setVisible(true);
+        setVisible(false);
     }//GEN-LAST:event_btnPaymentActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        dispose();
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,6 +305,7 @@ public class ShowMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddToCart;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnExit;
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnViewCart;
     private javax.swing.JLabel jLabel1;

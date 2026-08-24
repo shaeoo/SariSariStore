@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.sarisaristore;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,8 +16,20 @@ public class NewJFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    ArrayList<Product> drinks = new ArrayList<>();
+    ArrayList<Product> snacks = new ArrayList<>();
+    
     public NewJFrame() {
         initComponents();
+        
+        drinks.add(new Product("Coke", 25, 50));
+        drinks.add(new Product("Coffee", 50, 10));
+        drinks.add(new Product("Sting", 35, 20));
+        
+        snacks.add(new Product("Mang Juan", 15, 20));
+        snacks.add(new Product("Loaded", 20, 10));
+        snacks.add(new Product("Skyflakes", 10, 15));
     }
 
     /**
@@ -70,7 +83,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBtnActionPerformed
         // TODO add your handling code here:
-        MainStore myStore =  new MainStore();
+        MainStore myStore =  new MainStore(drinks, snacks);
         myStore.setLocationRelativeTo(null);
         myStore.setVisible(true);
         setVisible(false);
